@@ -5,6 +5,7 @@ using ProvaDev.Domain.Repositories;
 using ProvaDev.Infrastructure.Data.Context;
 using ProvaDev.Infrastructure.Repositories;
 using ProvaDev.WebApi.Seed;
+using ProvaDev.WebApi.Middleware;
 using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -55,6 +56,8 @@ using (var scope = app.Services.CreateScope())
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     DbSeeder.Seed(db);
 }
+
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 if (app.Environment.IsDevelopment())
 {
